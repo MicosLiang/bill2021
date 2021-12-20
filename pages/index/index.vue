@@ -11,7 +11,7 @@
 					
 				<!-- 起始页 start-->
 				<swiper-item  >
-					<view @touchmove="touchMove0" @touchend="touchEnd0">
+					<view @touchmove="touchMove" @touchend="touchEnd">
 						<view style="text-align: center;width: 100vw;transform: translateY(8vh);">
 							<vue-typed-js style="color: #d9af4b;width: 100vw;display: flex;justify-content: center;" :strings="['滴，触碰盒子开启账单 ~~　']">
 							    <h2 class="typing"></h2>
@@ -30,7 +30,7 @@
 				
 				
 				<!-- 洗澡页 start-->
-				<swiper-item @touchmove="touchMove1" @touchend="touchEnd1">
+				<swiper-item @touchmove="touchMove" @touchend="touchEnd">
 				
 					<view class="bashingClauseStyle1 setElementCenter ">
 						今年一共洗了
@@ -61,9 +61,20 @@
 				</swiper-item>
 				<!-- 洗澡页 end-->
 					
+				<!-- 贫富 -->
+<!-- 				<swiper-item class="" style="display: flex;flex-direction: column;justify-content: space-between;">
+					<view v-bind:style="{right: moveY2/1.2 + 'px'}"> 
+						<text>这是第一行字\n\n</text>
+						<text>和第二行\n\n</text>
+						<text>第三行\n\n</text>				
+					</view>
+					<view style="display: flex;align-items: flex-end;overflow: hidden;">
+						<image src="../../static/bill2021/min-and-max/max.png"></image>						
+					</view>
+				</swiper-item> -->
 					
 				<!-- 最终页 start-->
-				<swiper-item  style="background-color: #000000;" @touchmove="touchMove2" @touchend="touchEnd2">
+				<swiper-item  style="background-color: #000000;" @touchmove="touchMove" @touchend="touchEnd">
 				
 					
 					
@@ -325,10 +336,11 @@
 							try{
 								t = String(res[q]).split('.')
 								res[q] = t[0] + "." + t[1].substr(0,saveNum) 
-								console.log(res[q])
+								// console.log(res[q])
 							}
 							catch(e){
-								console.log(e)
+								// console.log(e)
+								// console.log(res[q])
 							}
 						}
 						
@@ -382,185 +394,24 @@
 			},
 			
 			
-			touchEnd0(e){  //@touchend触摸结束
-				this.moveY0 = 0
+			touchEnd(e){
+				let _sf = this
+				let key = "moveY" + String(_sf.swiperCurrent)
+				this[key] = 0
 			},
-			touchMove0(event) {  //@touchmove触摸移动
+			touchMove(event) {  //@touchmove触摸移动
 				var index = this.swiperCurrent;
+				var key = "moveY" + String(index)
 				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
 				this.touch = touch;
 				let data =  this.startData.clientY - touch.clientY;
 				
 				console.log(data);
 				if (data > 40 && this.startFlag){
-					this.moveY0 = data
+					this[key] = data
 				}
 				
 			},
-			
-			
-			touchEnd1 (e) {
-				this.moveY0 = 0
-				
-				
-			},
-			touchMove1(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY1 = data
-				}
-				
-			},
-			
-			touchEnd2 (e) {
-				this.moveY1 = 0
-
-			},
-			touchMove2(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY2 = data
-				}
-			},
-			
-			touchEnd3 (e) {
-				this.moveY2 = 0
-				this.reachPositionAnimation2 = 'slide-in-right'
-			},
-			touchMove3(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY3 = data
-				}
-			},
-			
-			touchEnd4 (e) {
-				this.moveY3 = 0
-				this.reachPositionAnimation3 = 'slide-in-right'
-			},
-			touchMove4(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY4 = data
-				}
-			},
-			
-			touchEnd5 (e) {
-				this.moveY4 = 0
-				this.reachPositionAnimation4 = 'slide-in-right'
-			},
-			touchMove5(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY5 = data
-				}
-			},
-			
-			touchEnd6 (e) {
-				this.moveY5 = 0
-				this.reachPositionAnimation5 = 'slide-in-right'
-			},
-			touchMove6(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY6 = data
-				}
-			},
-			
-			touchEnd7 (e) {
-				this.moveY6 = 0
-				this.reachPositionAnimation6 = 'slide-in-right'
-			},
-			touchMove7(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY7 = data
-				}
-			},
-			
-			touchEnd8 (e) {
-				this.moveY7 = 0
-				this.reachPositionAnimation7 = 'slide-in-right'
-			},
-			touchMove8(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY8 = data
-				}
-			},
-			
-			touchEnd9 (e) {
-				this.moveY8 = 0
-				this.reachPositionAnimation8 = 'slide-in-right'
-			},
-			touchMove9(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				console.log(data);
-				if (data > 40 ){
-					this.moveY9 = data
-				}
-			},
-			
-			
-			touchEnd10 (e) {
-				this.moveY9 = 0
-				this.reachPositionAnimation9 = 'slide-in-right'
-			},
-			touchMove10(event) {  //@touchmove触摸移动
-				var index = this.swiperCurrent;
-				let touch = event.touches[0];  //滑动过程中，手指滑动的坐标信息 返回的是Objcet对象
-				this.touch = touch;
-				let data =  this.startData.clientY - touch.clientY;
-				
-				this.moveY10 = data
-				console.log(index);
-			},
-			
-			
 			
 			swiperChange(e) {
 				var index = e.detail.current
