@@ -313,11 +313,6 @@
 			}
 		},
 		onLoad() {
-		
-		},
-		onShow() {
-			this.eggFlag = 0
-			
 			let _sf = this
 			let getData = function(username, password){
 				uniCloud.callFunction({
@@ -371,7 +366,11 @@
 				})
 			}
 			
-			getData("liangjh21","@1L_9d!2b0j4")
+			getData("","")		
+		},
+		onShow() {
+			this.eggFlag = 0
+		
 		},
 		mounted() {
 			
