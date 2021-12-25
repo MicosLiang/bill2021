@@ -6,7 +6,7 @@
 		<view @touchstart="touchStart">
 		
 			<swiper :disable-touch="!startFlag" @change="swiperChange" vertical="true" class="content" 
-				style="height: 100vh;width: 100vw;"
+				style="height: 100vh;width: 100vw;" @transition="transDo"
 			>
 					
 				<!-- 起始页 start-->
@@ -62,27 +62,36 @@
 				<!-- 洗澡页 end-->
 					
 				<!-- 贫富 -->
-<!-- 				<swiper-item class="" style="display: flex;flex-direction: column;justify-content: space-between;">
-					<view v-bind:style="{right: moveY2/1.2 + 'px'}"> 
+				<swiper-item class="" style="display: flex;flex-direction: column;justify-content: space-between;">
+					<view class="tx1" :style="[tx1Scape]"> 
 						<text>这是第一行字\n\n</text>
 						<text>和第二行\n\n</text>
 						<text>第三行\n\n</text>				
 					</view>
 					<view style="display: flex;align-items: flex-end;overflow: hidden;">
-						<image src="../../static/bill2021/min-and-max/max.png"></image>						
+						<image src="../../static/bill2021/min-and-max/max.png" :style="[nowPo]"></image>						
 					</view>
-				</swiper-item> -->
-					
+				</swiper-item>
+				
+				<!--数据-->
+				<swiper-item class="" style="display: flex;flex-direction: column;justify-content: space-between;">
+					<view class="charts-box" style="margin-top: 200rpx;">
+						<qiun-data-charts type="rose" :chartData="pieData" />
+					</view>
+					<view style="margin: 0rpx 0rpx 400rpx 250rpx;">
+						Here is some text
+					</view>
+				</swiper-item>				
+				
 				<!-- 最终页 start-->
 				<swiper-item  style="background-color: #000000;" @touchmove="touchMove" @touchend="touchEnd">
-				
 					
+					<button @click="gotoWord"></button>
 					
 					<image :src="pagesElements.summaryPage.imgsUrl.female" class="backgroundImageStyle"
 							mode="aspectFit"></image>
 					<image :src="pagesElements.summaryPage.imgsUrl.circle" style="z-index: 10;position: absolute;" class="imageStyle" mode="aspectFit"></image>
 					<image :src="pagesElements.summaryPage.imgsUrl.paws" style="z-index: 20;position: absolute;" class=" imageStyle" mode="aspectFit"></image>
-					
 					<view style="display: flex;flex-direction: column;height: 100vh;width: 95vw;align-items: flex-end;justify-content: flex-end;">
 						<button type="default" style="width: 35%;margin: 20rpx 0; font-size: 36rpx;padding: 10rpx 0;">返回</button>
 						<button type="default" style="width: 35%;margin: 20rpx 0; font-size: 36rpx;padding: 10rpx 0;">分享</button>
@@ -100,10 +109,23 @@
 
 
 <script>
-	
+	// import uCharts from "../../uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js";
 	export default {
 		data() {
 			return {
+				tx1Scape : {transform : "scaleY(0)"},
+				nowPo : 0,
+				lock : true,
+                pieData: {
+                    "series":[
+                        {"name":"一","data":50},
+                        {"name":"二","data":30},
+                        {"name":"三","data":20},
+                        {"name":"四","data":18},
+                        {"name":"五","data":8},
+                    ],
+                },
+				
 				startCardAnimation: '',
 				marginRightAnimation: '',
 				eggFlag: 0,
@@ -376,6 +398,26 @@
 			
 		},
 		methods: {
+			transDo(res){
+				if(this.swiperCurrent != 2) return;
+				let ay = 504
+				let dy = res.detail.dy
+				if(dy>0 && this.lock){
+					this.nowPo = {margin : "0rpx 0rpx 0rpx "+ (25*(ay/dy)).toString() + "vw"}
+					this.tx1Scape.transform = "scale(" + (ay/dy).toString() + ")"
+					// console.log(this.nowPo)
+					if(dy/ay>=1){
+						this.lock = false
+					}
+				}
+			},
+			gotoWord(res){
+				console.log("d")
+				uni.navigateTo({
+					url:"wordCloud"
+				})
+			},
+			
 			jumpToEgg() {
 				this.eggFlag ++;
 				if (this.eggFlag == 5) {
@@ -444,6 +486,12 @@
 </script>
 
 <style>
+	.tx1{
+		align-self: flex-start;
+		margin: 100rpx 0rpx 0rpx 100rpx;
+		font-size: 200%;
+	}
+	
 	.content {
 		display: flex;
 		flex-direction: column;
